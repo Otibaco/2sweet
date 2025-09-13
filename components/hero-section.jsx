@@ -80,7 +80,7 @@ export function HeroSection() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
         <Image
-          src="/bitcoin-image2.jpg"
+          src="/Bitcoin-image2.jpg"
           alt="Bitcoin trading technology background"
           fill
           className="object-cover opacity-30 dark:opacity-20"
