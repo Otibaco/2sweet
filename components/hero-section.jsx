@@ -79,13 +79,21 @@ export function HeroSection() {
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
-        <Image
-          src="/Bitcoin-image2.jpg"
-          alt="Bitcoin trading technology background"
-          fill
-          className="object-cover opacity-30 dark:opacity-20"
-          priority
-        />
+        <div className="relative w-full h-full">
+          <Image
+            src="/bitcoin-image2.jpg"
+            alt="Bitcoin trading technology background"
+            fill
+            priority
+            sizes="100vw"
+            className="
+        object-cover 
+        opacity-30 dark:opacity-20 
+        sm:object-center 
+        object-[center_top]    /* 👈 focus top on mobile */
+      "
+          />
+        </div>
       </div>
 
       {/* Hero Content */}
