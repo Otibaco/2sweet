@@ -18,12 +18,14 @@ const features = [
   {
     icon: Shield,
     title: "Bank-Level Security",
-    description: "Your assets are protected with military-grade encryption and cold storage",
+    description:
+      "Your assets are protected with military-grade encryption and cold storage",
   },
   {
     icon: Zap,
     title: "Lightning Fast",
-    description: "Execute trades in milliseconds with our advanced matching engine",
+    description:
+      "Execute trades in milliseconds with our advanced matching engine",
   },
   {
     icon: TrendingUp,
@@ -33,30 +35,52 @@ const features = [
   {
     icon: Users,
     title: "Trusted by Millions",
-    description: "Join over 10 million users worldwide trading on our platform",
+    description:
+      "Join over 10 million users worldwide trading on our platform",
   },
 ]
 
 export function HeroSection() {
   const [scrollY, setScrollY] = useState(0)
+  const [smoothScrollY, setSmoothScrollY] = useState(0)
 
+  // ✅ Attach scroll listener ONCE
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
   }, [])
+
+  // ✅ Smooth animation independent of re-render loops
+  useEffect(() => {
+    let rafId
+    const smooth = () => {
+      setSmoothScrollY((prev) => prev + (scrollY - prev) * 0.08)
+      rafId = requestAnimationFrame(smooth)
+    }
+    smooth()
+
+    return () => cancelAnimationFrame(rafId)
+  }, [scrollY])
+
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      {/* Background with Smooth Parallax */}
       <div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 will-change-transform"
         style={{
-          transform: `translateY(${scrollY * 0.5}px)`,
+          transform: `translateY(${smoothScrollY * 0.3}px)`,
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
         <Image
-          src="/images/bitcoin-image2.jpg"
+          src="/bitcoin-image2.jpg"
           alt="Bitcoin trading technology background"
           fill
           className="object-cover opacity-30 dark:opacity-20"
@@ -68,21 +92,24 @@ export function HeroSection() {
       <div className="relative z-10 pt-20 lg:pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text Content */}
+            {/* Left Column */}
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight text-balance tracking-tight">
                   Trade Crypto Like a{" "}
-                  <span className="text-transparent bg-clip-text gradient-primary bg-gradient-to-r from-primary to-secondary">
+                  <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent font-extrabold">
                     Professional
                   </span>
                 </h1>
+
                 <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed text-pretty">
-                  Join millions of traders on 2$weet - the most trusted cryptocurrency exchange platform with advanced
-                  trading tools, bank-level security, and lightning-fast execution.
+                  Join millions of traders on 2$weet - the most trusted
+                  cryptocurrency exchange platform with advanced trading tools,
+                  bank-level security, and lightning-fast execution.
                 </p>
               </div>
 
+              {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   asChild
@@ -103,6 +130,7 @@ export function HeroSection() {
                 </Button>
               </div>
 
+              {/* Crypto Stats */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {cryptoStats.map((crypto) => (
                   <Card
@@ -111,11 +139,14 @@ export function HeroSection() {
                   >
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-sm">{crypto.symbol}</span>
+                        <span className="font-semibold text-sm">
+                          {crypto.symbol}
+                        </span>
                         <span
-                          className={`text-xs font-medium ${
-                            crypto.change.startsWith("+") ? "text-green-500" : "text-red-500"
-                          }`}
+                          className={`text-xs font-medium ${crypto.change.startsWith("+")
+                            ? "text-green-500"
+                            : "text-red-500"
+                            }`}
                         >
                           {crypto.change}
                         </span>
@@ -127,14 +158,15 @@ export function HeroSection() {
               </div>
             </div>
 
+            {/* Right Column - Image */}
             <div className="relative">
               <div className="relative z-10">
                 <Image
-                  src="/images/work1.jpg"
-                  alt="Professional crypto trader working with Bitcoin"
+                  src="/mobileimage.png"
+                  alt="Crypto trader analyzing charts"
                   width={600}
                   height={700}
-                  className="rounded-2xl shadow-2xl animate-float"
+                  className="animate-float" //rounded-2xl shadow-2xl
                   priority
                 />
               </div>
@@ -148,13 +180,17 @@ export function HeroSection() {
         </div>
       </div>
 
+      {/* Why Choose Section */}
       <div className="relative z-10 py-16 bg-muted/30 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 tracking-tight">Why Choose 2$weet?</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4 tracking-tight">
+              Why Choose 2$weet?
+            </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Experience the future of cryptocurrency trading with our cutting-edge platform designed for both beginners
-              and professionals.
+              Experience the future of cryptocurrency trading with our
+              cutting-edge platform designed for both beginners and
+              professionals.
             </p>
           </div>
 
@@ -171,8 +207,12 @@ export function HeroSection() {
                   <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center shadow-md">
                     <feature.icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {feature.description}
+                  </p>
                 </div>
               </Card>
             ))}
@@ -180,28 +220,32 @@ export function HeroSection() {
         </div>
       </div>
 
+      {/* Stats Section */}
       <div className="relative z-10 py-12 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-transparent bg-clip-text gradient-primary bg-gradient-to-r from-primary to-secondary">
+              <div className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent drop-shadow-md">
                 $50B+
               </div>
               <div className="text-muted-foreground">Trading Volume</div>
             </div>
+
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-transparent bg-clip-text gradient-primary bg-gradient-to-r from-primary to-secondary">
+              <div className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent drop-shadow-md">
                 10M+
               </div>
               <div className="text-muted-foreground">Active Users</div>
             </div>
+
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-transparent bg-clip-text gradient-primary bg-gradient-to-r from-primary to-secondary">
+              <div className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent drop-shadow-md">
                 99.9%
               </div>
               <div className="text-muted-foreground">Uptime</div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

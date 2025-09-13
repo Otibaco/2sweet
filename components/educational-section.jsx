@@ -86,16 +86,22 @@ export function EducationalSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {stats.map((stat, index) => (
             <div key={stat.label} className="text-center">
-              <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+              {/* Icon box */}
+              <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
                 <stat.icon className="h-8 w-8 text-white" />
               </div>
-              <div className="text-3xl font-bold text-transparent bg-clip-text gradient-primary bg-gradient-to-r from-primary to-secondary mb-2">
+
+              {/* Stat value with gradient */}
+              <div className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
                 {stat.value}
               </div>
+
+              {/* Label */}
               <div className="text-muted-foreground">{stat.label}</div>
             </div>
           ))}
         </div>
+
 
         {/* CTA */}
         <div className="text-center">
