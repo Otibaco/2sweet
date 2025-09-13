@@ -78,21 +78,33 @@ export function HeroSection() {
           transform: `translateY(${smoothScrollY * 0.3}px)`,
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10" />
-        <div className="relative w-full h-full">
-          <Image
-            src="/bitcoin-image2.jpg"
-            alt="Bitcoin trading technology background"
-            fill
-            priority
-            sizes="100vw"
-            className="
-        object-cover 
-        opacity-30 dark:opacity-20 
-        sm:object-center 
-        object-[center_top]    /* 👈 focus top on mobile */
-      "
-          />
+        <div className="absolute inset-0">
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-accent/10 z-10" />
+
+          {/* Responsive container for the image */}
+          <div
+            className="relative w-full"
+            style={{
+              aspectRatio: "16 / 9", // keeps consistent proportions
+              minHeight: "400px",
+              maxHeight: "800px",
+            }}
+          >
+            <Image
+              src="/Bitcoin-image2.jpg"
+              alt="Bitcoin trading technology background"
+              fill
+              priority
+              sizes="100vw"
+              className="
+          object-cover
+          object-center
+          opacity-30
+          dark:opacity-20
+        "
+            />
+          </div>
         </div>
       </div>
 
