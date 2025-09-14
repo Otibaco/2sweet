@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 import Link from "next/link"
 import { FileText, Shield, UserCheck } from "lucide-react"
 
