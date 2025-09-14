@@ -24,6 +24,9 @@ export default function LoginPage() {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     setIsLoading(false)
     // Handle login logic here
+    // Handle final signup
+    Router.push("/dashboard")
+    toast.success("Signup completed successfully!")
   }
 
   return (

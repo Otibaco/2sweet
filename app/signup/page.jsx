@@ -23,8 +23,10 @@ import {
   Camera,
   Shield,
   Globe,
+  Router,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { toast } from "sonner"
 
 const steps = [
   { id: 1, title: "Email", description: "Enter your email address" },
@@ -76,6 +78,8 @@ export default function SignupPage() {
       setCurrentStep(currentStep + 1)
     } else {
       // Handle final signup
+      Router.push("/dashboard")
+      toast.success("Signup completed successfully!")
       console.log("Signup completed:", formData)
     }
   }
