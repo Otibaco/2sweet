@@ -1,4 +1,3 @@
-import { Metadata } from "next"
 
 export const Metadata = {
   title: "KYC Policy | 2$weet",
