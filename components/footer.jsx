@@ -100,9 +100,9 @@ export function Footer() {
               <Image
                 src="/payment-image1.webp"
                 alt="Accepted payment methods"
-                width={150}
+                width={250}
                 height={40}
-                className="h-8 w-auto"
+                className="h-8 w-1/3"
               />
             </div>
             <div className="text-sm text-muted-foreground">
