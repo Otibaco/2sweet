@@ -16,7 +16,7 @@ const featuredPost = {
   date: "December 15, 2024",
   category: "Market Analysis",
   readTime: "8 min read",
-  image: "/bitcoin-image.jpg",
+  image: "/Bitcoin-image.jpg",
 }
 
 const trendingTopics = [
