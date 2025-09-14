@@ -62,7 +62,7 @@ export function Footer() {
               <h4 className="font-semibold text-foreground">Download Our App</h4>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Image
-                  src="/play-store.web"
+                  src="/play-store.webp"
                   alt="Download on App Store and Google Play"
                   width={300}
                   height={90}
