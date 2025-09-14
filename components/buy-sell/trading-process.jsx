@@ -163,10 +163,17 @@ export function TradingProcess() {
             <Button
               asChild
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 text-lg"
+              className="
+    bg-primary hover:bg-primary/90 
+    text-primary-foreground font-semibold 
+    px-4 py-2 text-sm      /* mobile */
+    sm:px-6 sm:py-3 sm:text-base   /* small screens */
+    md:px-8 md:py-4 md:text-lg     /* medium and up */
+  "
             >
               <Link href="/app">Download App & Start Trading</Link>
             </Button>
+
           </div>
         </Card>
       </div>
