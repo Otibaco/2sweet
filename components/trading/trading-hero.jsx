@@ -34,6 +34,7 @@ export function TradingHero() {
           priority
         />
       </div>
+      
 
       {/* Hero Content */}
       <div className="relative z-10 pt-32 pb-16">
