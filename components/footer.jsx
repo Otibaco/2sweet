@@ -62,7 +62,7 @@ export function Footer() {
               <h4 className="font-semibold text-foreground">Download Our App</h4>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Image
-                  src="/crypto-images/play-store.webp"
+                  src="/play-store.web"
                   alt="Download on App Store and Google Play"
                   width={300}
                   height={90}
@@ -98,7 +98,7 @@ export function Footer() {
             <div className="flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">Accepted Payment Methods:</span>
               <Image
-                src="/play-store.webp"
+                src="/payment-image1.webp"
                 alt="Accepted payment methods"
                 width={250}
                 height={40}
