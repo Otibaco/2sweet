@@ -86,7 +86,7 @@ export function AppShowcase() {
                   </Button>
                   <Link href="#" className="block">
                     <Image
-                      src="/images/play-store.webp"
+                      src="/play-store.webp"
                       alt="Download on App Store and Google Play"
                       width={200}
                       height={60}
@@ -102,7 +102,7 @@ export function AppShowcase() {
             <div className="relative flex justify-center">
               <div className="relative">
                 <Image
-                  src="/images/investor-on-phone.jpg"
+                  src="/mobile-app-interface.jpeg"
                   alt="2$weet mobile app trading interface"
                   width={400}
                   height={600}
