@@ -11,7 +11,7 @@ const navItems = [
   { name: "Home", href: "/" },
   { name: "Trading", href: "/trading" },
   { name: "About", href: "/about" },
-  { name: "Mobile App", href: "/app" },
+  { name: "Get Mobile App", href: "/mobile-app" },
   { name: "Blog", href: "/blog" },
   { name: "Buy/Sell", href: "/buy-sell" },
 ]
@@ -62,9 +62,16 @@ export function Navigation() {
             <ThemeToggle />
             <Button
               asChild
+              variant="outline"
+              className="h-10 px-4 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent"
+            >
+              <Link href="/login">Sign In</Link>
+            </Button>
+            <Button
+              asChild
               className="gradient-primary hover:opacity-90 text-white font-semibold px-6 py-2 rounded-xl shadow-md animate-glow"
             >
-              <Link href="/app">Download App</Link>
+              <Link href="/signup">Get Started</Link>
             </Button>
           </div>
 
@@ -94,12 +101,21 @@ export function Navigation() {
                   {item.name}
                 </Link>
               ))}
-              <Button
-                asChild
-                className="w-full gradient-primary hover:opacity-90 text-white font-semibold mt-4 rounded-xl"
-              >
-                <Link href="/app">Download App</Link>
-              </Button>
+              <div className="pt-4 space-y-3 border-t border-border/50">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full h-12 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent"
+                >
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button
+                  asChild
+                  className="w-full gradient-primary hover:opacity-90 text-white font-semibold rounded-xl"
+                >
+                  <Link href="/signup">Get Started</Link>
+                </Button>
+              </div>
             </div>
           </div>
         )}
