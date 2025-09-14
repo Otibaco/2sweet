@@ -10,7 +10,7 @@ const educationalContent = [
   {
     title: "How & What is Bitcoin?",
     description: "Complete beginner's guide to understanding Bitcoin and cryptocurrency fundamentals",
-    image: "/images/oficer.jpg",
+    image: "/oficer.jpg",
     category: "Beginner",
     readTime: "5 min read",
     href: "/blog/what-is-bitcoin",
@@ -18,7 +18,7 @@ const educationalContent = [
   {
     title: "Investment Timing Strategies",
     description: "Learn when to buy and sell crypto with proven timing strategies and market analysis",
-    image: "/images/clock.jpg",
+    image: "/clock.jpg",
     category: "Strategy",
     readTime: "8 min read",
     href: "/blog/timing-strategies",
@@ -26,7 +26,7 @@ const educationalContent = [
   {
     title: "Professional Trading Setup",
     description: "Set up your workspace like a pro trader with the right tools and environment",
-    image: "/images/coding.jpg",
+    image: "/coding.jpg",
     category: "Advanced",
     readTime: "12 min read",
     href: "/blog/trading-setup",

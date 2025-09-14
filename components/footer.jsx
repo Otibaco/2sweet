@@ -98,7 +98,7 @@ export function Footer() {
             <div className="flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">Accepted Payment Methods:</span>
               <Image
-                src="/payment-image1.webp"
+                src="/play-store.webp"
                 alt="Accepted payment methods"
                 width={250}
                 height={40}
