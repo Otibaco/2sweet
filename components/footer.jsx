@@ -102,7 +102,7 @@ export function Footer() {
                 alt="Accepted payment methods"
                 width={250}
                 height={40}
-                className="h-8 w-1/6"
+                className="h-8 w-1/2"
               />
             </div>
             <div className="text-sm text-muted-foreground">
