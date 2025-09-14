@@ -34,7 +34,7 @@ export function AppHero() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/5" />
         <Image
-          src="/bitcoin-image2.jpg"
+          src="/Bitcoin-image2.jpg"
           alt="Mobile crypto trading background"
           fill
           className="object-cover opacity-30"
