@@ -50,9 +50,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <Suspense fallback={null}>
-            <Navigation />
             <main className="min-h-screen">{children}</main>
-            <Footer />
           </Suspense>
         </ThemeProvider>
         <Analytics />

@@ -3,16 +3,19 @@ import { TradingProcess } from "@/components/buy-sell/trading-process"
 import { PaymentMethods } from "@/components/buy-sell/payment-methods"
 import { SecurityFeatures } from "@/components/buy-sell/security-features"
 import { AppShowcase } from "@/components/buy-sell/app-showcase"
+import { Navigation } from "@/components/navigation"
+import { Footer } from "@/components/footer"
 
 export default function BuySellPage() {
   return (
     <div className="min-h-screen">
+      <Navigation />
       <BuySellHero />
       <TradingProcess />
       <PaymentMethods />
       <SecurityFeatures />
       <AppShowcase />
-      
+      <Footer />
     </div>
   )
 }

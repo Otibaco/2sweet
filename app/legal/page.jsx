@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { FileText, Shield, UserCheck } from "lucide-react"
+import { Navigation } from "@/components/navigation"
+import { Footer } from "@/components/footer"
 
 export const Metadata = {
   title: "Legal | 2$weet",
@@ -30,6 +32,7 @@ export default function LegalHub() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <div className="space-y-12">
           <div className="text-center space-y-4">
@@ -80,6 +83,7 @@ export default function LegalHub() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

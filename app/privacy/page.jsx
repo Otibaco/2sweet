@@ -1,3 +1,5 @@
+import { Footer } from "@/components/footer"
+import { Navigation } from "@/components/navigation"
 
 export const Metadata = {
   title: "Privacy Policy | 2$weet",
@@ -7,6 +9,7 @@ export const Metadata = {
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <div className="space-y-8">
           <div className="text-center space-y-4">
@@ -160,6 +163,7 @@ export default function PrivacyPolicy() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
