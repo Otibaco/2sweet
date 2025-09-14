@@ -104,7 +104,7 @@ export function PaymentMethods() {
           <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50">
             <div className="flex items-center justify-center">
               <Image
-                src="/images/payment-image1.webp"
+                src="/payment-image1.webp"
                 alt="Accepted payment methods including Visa, Mastercard, American Express, PayPal, and Discover"
                 width={400}
                 height={80}

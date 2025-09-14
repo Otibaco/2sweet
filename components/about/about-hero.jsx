@@ -32,7 +32,7 @@ export function AboutHero() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/5" />
         <Image
-          src="/images/business-image.jpg"
+          src="/business-image.jpg"
           alt="Professional business background"
           fill
           className="object-cover opacity-40"

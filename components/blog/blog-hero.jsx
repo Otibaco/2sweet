@@ -16,7 +16,7 @@ const featuredPost = {
   date: "December 15, 2024",
   category: "Market Analysis",
   readTime: "8 min read",
-  image: "/images/bitcoin-image.jpg",
+  image: "/bitcoin-image.jpg",
 }
 
 const trendingTopics = [
@@ -47,7 +47,7 @@ export function BlogHero() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/5" />
         <Image
-          src="/images/business-image.jpg"
+          src="/business-image.jpg"
           alt="Crypto news and analysis background"
           fill
           className="object-cover opacity-30"

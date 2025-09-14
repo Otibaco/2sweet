@@ -27,7 +27,7 @@ export function TradingHero() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/10" />
         <Image
-          src="/images/bitcoin-image.jpg"
+          src="/bitcoin-image.jpg"
           alt="Bitcoin trading background"
           fill
           className="object-cover opacity-30"

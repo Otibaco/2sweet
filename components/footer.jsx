@@ -98,14 +98,17 @@ export function Footer() {
             <div className="flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">Accepted Payment Methods:</span>
               <Image
-                src="/crypto-images/play-store.webp"
+                src="/payment-image1.webp"
                 alt="Accepted payment methods"
                 width={250}
                 height={40}
                 className="h-8 w-auto"
               />
             </div>
-            <div className="text-sm text-muted-foreground">© 2025 2$weet. All rights reserved.</div>
+            <div className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} 2$weet. All rights reserved.
+            </div>
+
           </div>
         </div>
       </div>

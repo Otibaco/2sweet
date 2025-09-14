@@ -86,7 +86,7 @@ export function AppDownload() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="#" className="block">
                   <Image
-                    src="/images/play-store.webp"
+                    src="/play-store.webp"
                     alt="Download on App Store and Google Play"
                     width={300}
                     height={90}
@@ -104,7 +104,7 @@ export function AppDownload() {
           <div className="relative flex justify-center">
             <div className="relative">
               <Image
-                src="/images/investor-on-phone.jpg"
+                src="/investor-on-phone.jpg"
                 alt="2$weet mobile app download"
                 width={400}
                 height={600}

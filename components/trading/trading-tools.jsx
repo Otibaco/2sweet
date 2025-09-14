@@ -13,21 +13,21 @@ const tradingModes = [
     name: "Spot Trading",
     description: "Buy and sell cryptocurrencies instantly at current market prices",
     features: ["Real-time execution", "500+ trading pairs", "Advanced order types", "Market & limit orders"],
-    image: "/images/bitcoin-image2.jpg",
+    image: "/investors-image3.jpg",
   },
   {
     id: "futures",
     name: "Futures Trading",
     description: "Trade cryptocurrency futures with up to 100x leverage",
     features: ["Up to 100x leverage", "Perpetual contracts", "Cross & isolated margin", "Advanced risk management"],
-    image: "/images/business-image.jpg",
+    image: "/pc-image.jpg",
   },
   {
     id: "margin",
     name: "Margin Trading",
     description: "Amplify your trading power with borrowed funds",
     features: ["Up to 10x leverage", "Cross margin support", "Flexible borrowing", "Competitive interest rates"],
-    image: "/images/investor-on-phone.jpg",
+    image: "/investor-on-phone.jpg",
   },
 ]
 

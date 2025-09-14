@@ -14,7 +14,7 @@ const featuredPosts = [
     date: "December 12, 2024",
     category: "DeFi",
     readTime: "12 min read",
-    image: "/images/bitcoin-image2.jpg",
+    image: "/defi.jpeg",
     featured: true,
   },
   {
@@ -26,7 +26,7 @@ const featuredPosts = [
     date: "December 10, 2024",
     category: "Market Analysis",
     readTime: "15 min read",
-    image: "/images/business-image.jpg",
+    image: "/Market-Analysis.jpeg",
     featured: true,
   },
   {
@@ -38,7 +38,7 @@ const featuredPosts = [
     date: "December 8, 2024",
     category: "Education",
     readTime: "10 min read",
-    image: "/images/investor-on-phone.jpg",
+    image: "/investors-chilling.jpg",
     featured: true,
   },
 ]

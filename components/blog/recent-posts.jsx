@@ -14,7 +14,7 @@ const recentPosts = [
     date: "December 14, 2024",
     category: "Education",
     readTime: "7 min read",
-    image: "/images/business-image.jpg",
+    image: "/investors-chilling.jpg",
   },
   {
     id: 5,
@@ -24,7 +24,7 @@ const recentPosts = [
     date: "December 13, 2024",
     category: "Market Analysis",
     readTime: "9 min read",
-    image: "/images/bitcoin-image.jpg",
+    image: "/Market-Analysis.jpeg",
   },
   {
     id: 6,
@@ -34,7 +34,7 @@ const recentPosts = [
     date: "December 11, 2024",
     category: "Trading Tips",
     readTime: "11 min read",
-    image: "/images/investor-on-phone.jpg",
+    image: "/trade-risk.jpeg",
   },
   {
     id: 7,
@@ -44,7 +44,7 @@ const recentPosts = [
     date: "December 9, 2024",
     category: "Technology",
     readTime: "13 min read",
-    image: "/images/bitcoin-image2.jpg",
+    image: "/office.jpg",
   },
   {
     id: 8,
@@ -54,7 +54,7 @@ const recentPosts = [
     date: "December 7, 2024",
     category: "Market Analysis",
     readTime: "8 min read",
-    image: "/images/business-image.jpg",
+    image: "/Market-Analysis.jpeg",
   },
   {
     id: 9,
@@ -64,7 +64,7 @@ const recentPosts = [
     date: "December 5, 2024",
     category: "DeFi",
     readTime: "10 min read",
-    image: "/images/investor-on-phone.jpg",
+    image: "/defi.jpeg",
   },
 ]
 
