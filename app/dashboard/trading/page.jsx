@@ -62,30 +62,41 @@ export default function TradingPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-6 space-y-6">
+      <div className="p-4 sm:p-6 space-y-6">
         {/* Trading Pair Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          {/* Left: Pair Selector + Badge + Favorite */}
+          <div className="flex items-center gap-3">
             <Select value={selectedPair} onValueChange={setSelectedPair}>
-              <SelectTrigger className="w-48 h-12 rounded-xl border-border/50">
+              <SelectTrigger className="w-44 sm:w-56 h-12 rounded-xl border-border/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {tradingPairs.map((pair) => (
-                  <SelectItem key={pair.symbol} value={pair.symbol}>
-                    <div className="flex items-center justify-between w-full">
-                      <span>{pair.symbol}</span>
-                      <Badge variant={pair.change > 0 ? "default" : "destructive"} className="ml-2 rounded-full">
-                        {pair.change > 0 ? "+" : ""}
-                        {pair.change}%
-                      </Badge>
-                    </div>
+                  <SelectItem
+                    key={pair.symbol}
+                    value={pair.symbol}
+                    className="flex items-center justify-between w-full"
+                  >
+                    <span className="flex-1">{pair.symbol}</span>
+                    <Badge
+                      variant={pair.change > 0 ? "default" : "destructive"}
+                      className="ml-2 rounded-full shrink-0"
+                    >
+                      {pair.change > 0 ? "+" : ""}
+                      {pair.change}%
+                    </Badge>
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
-            <Button variant="ghost" size="sm" onClick={() => toggleFavorite(selectedPair)} className="rounded-xl">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => toggleFavorite(selectedPair)}
+              className="rounded-xl"
+            >
               {favorites.includes(selectedPair) ? (
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               ) : (
@@ -94,10 +105,17 @@ export default function TradingPage() {
             </Button>
           </div>
 
-          <div className="flex items-center space-x-6 mt-4 lg:mt-0">
-            <div className="text-center">
-              <div className="text-2xl font-bold">${selectedPairData.price.toLocaleString()}</div>
-              <Badge variant={selectedPairData.change > 0 ? "default" : "destructive"} className="rounded-full">
+          {/* Right: Price + Info */}
+          <div className="flex flex-col sm:items-end gap-3">
+            {/* Price + Badge */}
+            <div className="flex items-center gap-3">
+              <div className="text-xl sm:text-2xl font-bold">
+                ${selectedPairData.price.toLocaleString()}
+              </div>
+              <Badge
+                variant={selectedPairData.change > 0 ? "default" : "destructive"}
+                className="rounded-full"
+              >
                 {selectedPairData.change > 0 ? (
                   <TrendingUp className="w-3 h-3 mr-1" />
                 ) : (
@@ -107,33 +125,41 @@ export default function TradingPage() {
                 {selectedPairData.change}%
               </Badge>
             </div>
-            <div className="text-sm text-muted-foreground space-y-1">
+
+            {/* 24h Info */}
+            <div className="flex flex-col items-start sm:items-end text-sm text-muted-foreground space-y-1">
               <div>
-                24h High: <span className="text-foreground">${selectedPairData.high.toLocaleString()}</span>
+                24h High:{" "}
+                <span className="text-foreground">
+                  ${selectedPairData.high.toLocaleString()}
+                </span>
               </div>
               <div>
-                24h Low: <span className="text-foreground">${selectedPairData.low.toLocaleString()}</span>
+                24h Low:{" "}
+                <span className="text-foreground">
+                  ${selectedPairData.low.toLocaleString()}
+                </span>
               </div>
               <div>
-                Volume: <span className="text-foreground">{selectedPairData.volume}</span>
+                Volume:{" "}
+                <span className="text-foreground">{selectedPairData.volume}</span>
               </div>
             </div>
           </div>
         </div>
 
+
+
         {/* Main Trading Interface */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Chart Area */}
           <div className="xl:col-span-3">
-            <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl h-[600px]">
-              <CardHeader className="flex flex-row items-center justify-between">
+            <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl h-[400px] sm:h-[500px] xl:h-[600px]">
+              <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <CardTitle>Price Chart</CardTitle>
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-wrap gap-2">
                   <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
                     1m
-                  </Button>
-                  <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
-                    5m
                   </Button>
                   <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
                     15m
@@ -147,15 +173,17 @@ export default function TradingPage() {
                   <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
                     1d
                   </Button>
+
                 </div>
               </CardHeader>
               <CardContent className="h-full">
-                {/* Placeholder for TradingView chart */}
                 <div className="w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl flex items-center justify-center">
-                  <div className="text-center">
-                    <BarChart3 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                  <div className="text-center px-4">
+                    <BarChart3 className="w-12 h-12 sm:w-16 sm:h-16 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">Advanced Trading Chart</p>
-                    <p className="text-sm text-muted-foreground">TradingView integration would go here</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      TradingView integration would go here
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -242,7 +270,7 @@ export default function TradingPage() {
                   ))}
                 </div>
 
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2 text-xs sm:text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Available:</span>
                     <span>12,345.67 USDT</span>
@@ -254,11 +282,10 @@ export default function TradingPage() {
                 </div>
 
                 <Button
-                  className={`w-full h-12 rounded-xl font-semibold ${
-                    tradeType === "buy"
-                      ? "bg-green-500 hover:bg-green-600 text-white"
-                      : "bg-red-500 hover:bg-red-600 text-white"
-                  }`}
+                  className={`w-full h-12 rounded-xl font-semibold ${tradeType === "buy"
+                    ? "bg-green-500 hover:bg-green-600 text-white"
+                    : "bg-red-500 hover:bg-red-600 text-white"
+                    }`}
                 >
                   {tradeType === "buy" ? "Buy" : "Sell"} BTC
                 </Button>
@@ -268,9 +295,9 @@ export default function TradingPage() {
             {/* Account Balance */}
             <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
               <CardHeader>
-                <CardTitle className="text-lg">Account Balance</CardTitle>
+                <CardTitle className="text-base sm:text-lg">Account Balance</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-3 text-sm sm:text-base">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">BTC</span>
                   <span className="font-semibold">0.5432</span>
@@ -304,7 +331,7 @@ export default function TradingPage() {
               <div className="space-y-4">
                 {/* Asks */}
                 <div>
-                  <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <div className="hidden sm:flex justify-between text-xs text-muted-foreground mb-2">
                     <span>Price (USDT)</span>
                     <span>Amount (BTC)</span>
                     <span>Total</span>
@@ -328,7 +355,9 @@ export default function TradingPage() {
 
                 {/* Spread */}
                 <div className="flex items-center justify-center py-2 border-y border-border/50">
-                  <span className="text-lg font-bold">{selectedPairData.price.toLocaleString()}</span>
+                  <span className="text-base sm:text-lg font-bold">
+                    {selectedPairData.price.toLocaleString()}
+                  </span>
                   <ArrowUpDown className="w-4 h-4 ml-2 text-muted-foreground" />
                 </div>
 
@@ -361,31 +390,45 @@ export default function TradingPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                {/* Table header only visible on larger screens */}
+                <div className="hidden sm:flex justify-between text-xs text-muted-foreground mb-2">
                   <span>Price (USDT)</span>
                   <span>Amount (BTC)</span>
                   <span>Time</span>
                 </div>
+
                 {recentTrades.map((trade, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex justify-between text-sm py-2 px-2 rounded hover:bg-muted/30"
+                    className="flex flex-col sm:flex-row sm:justify-between py-2 px-3 rounded hover:bg-muted/30"
                   >
-                    <span className={trade.type === "buy" ? "text-green-500" : "text-red-500"}>
-                      {trade.price.toLocaleString()}
-                    </span>
-                    <span>{trade.amount}</span>
-                    <span className="text-muted-foreground">{trade.time}</span>
+                    {/* Mobile Layout: Price + Amount on first line */}
+                    <div className="flex justify-between sm:justify-start sm:gap-8 w-full">
+                      <span
+                        className={`font-medium ${trade.type === "buy" ? "text-green-500" : "text-red-500"
+                          }`}
+                      >
+                        {trade.price.toLocaleString()}
+                      </span>
+                      <span className="text-foreground">{trade.amount}</span>
+                    </div>
+
+                    {/* Time */}
+                    <div className="text-xs text-muted-foreground mt-1 sm:mt-0 sm:text-right">
+                      {trade.time}
+                    </div>
                   </motion.div>
                 ))}
               </div>
             </CardContent>
           </Card>
+
         </div>
       </div>
     </DashboardLayout>
+
   )
 }
