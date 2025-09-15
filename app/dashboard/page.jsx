@@ -276,46 +276,46 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="flex flex-wrap sm:grid sm:grid-cols-3 sm:items-center gap-3 p-3 rounded-lg bg-muted/30"
+                        className="p-3 rounded-lg bg-muted/30 flex flex-col"
                       >
-                        {/* Transaction Icon + Type */}
-                        <div className="flex items-center gap-3 flex-1 min-w-[140px]">
-                          <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === "buy"
-                              ? "bg-green-500/10"
-                              : tx.type === "sell"
-                                ? "bg-red-500/10"
-                                : "bg-blue-500/10"
-                              }`}
-                          >
-                            {tx.type === "buy" ? (
-                              <ArrowUpRight className="w-4 h-4 text-green-500" />
-                            ) : tx.type === "sell" ? (
-                              <ArrowDownLeft className="w-4 h-4 text-red-500" />
-                            ) : (
-                              <CreditCard className="w-4 h-4 text-blue-500" />
-                            )}
-                          </div>
-
-                          <div>
-                            <div className="font-medium capitalize">
-                              {tx.type} {tx.asset}
+                        {/* First Row: Transaction Type + Value aligned */}
+                        <div className="flex items-center justify-between">
+                          {/* Left: Icon + Buy BTC */}
+                          <div className="flex items-center gap-2">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center ${tx.type === "buy"
+                                  ? "bg-green-500/10"
+                                  : tx.type === "sell"
+                                    ? "bg-red-500/10"
+                                    : "bg-blue-500/10"
+                                }`}
+                            >
+                              {tx.type === "buy" ? (
+                                <ArrowUpRight className="w-4 h-4 text-green-500" />
+                              ) : tx.type === "sell" ? (
+                                <ArrowDownLeft className="w-4 h-4 text-red-500" />
+                              ) : (
+                                <CreditCard className="w-4 h-4 text-blue-500" />
+                              )}
                             </div>
-                            <div className="text-xs text-muted-foreground">{tx.time}</div>
+                            <span className="font-medium capitalize">{tx.type} {tx.asset}</span>
+                          </div>
+
+                          {/* Right: Value + Amount */}
+                          <div className="flex flex-col items-end leading-tight">
+                            <span className="font-medium">${tx.value.toLocaleString()}</span>
+                            <span className="text-xs text-muted-foreground">
+                              {tx.amount} {tx.asset}
+                            </span>
                           </div>
                         </div>
 
-                        {/* Transaction Value */}
-                        <div className="flex-1 min-w-[120px] text-left sm:text-right">
-                          <div className="font-medium">${tx.value.toLocaleString()}</div>
-                          <div className="text-xs text-muted-foreground">
-                            {tx.amount} {tx.asset}
-                          </div>
-                        </div>
+                        {/* Second Row: Time */}
+                        <div className="text-xs text-muted-foreground mt-1">{tx.time}</div>
 
-                        {/* Transaction Status */}
-                        <div className="flex-1 min-w-[80px] text-left sm:text-right">
-                          <Badge variant="outline" className="rounded-full text-xs px-2 py-1">
+                        {/* Third Row: Status */}
+                        <div className="mt-1">
+                          <Badge variant="outline" className="rounded-full text-xs px-1 py-1">
                             {tx.status}
                           </Badge>
                         </div>
@@ -324,6 +324,9 @@ export default function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
+
+
+
             </div>
 
 
