@@ -24,13 +24,10 @@ export default function LoginPage() {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     setIsLoading(false)
     // Handle login logic here
-    // Handle final signup
-    Router.push("/dashboard")
-    toast.success("Signup completed successfully!")
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4 py-6">
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
 
       <motion.div
@@ -42,25 +39,25 @@ export default function LoginPage() {
         {/* Back to Home */}
         <Link
           href="/"
-          className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-8 group"
+          className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-6 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </Link>
 
         <Card className="border-0 shadow-2xl bg-card/80 backdrop-blur-xl">
-          <CardHeader className="text-center pb-8">
-            <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <span className="text-white font-bold text-2xl">2$</span>
+          <CardHeader className="text-center pb-6 px-6 pt-6">
+            <div className="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+              <span className="text-white font-bold text-xl">2$</span>
             </div>
             <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-            <CardDescription className="text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-sm">
               Sign in to your 2$weet account to continue trading
             </CardDescription>
           </CardHeader>
 
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="px-6 pb-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium">
                   Email Address
@@ -73,7 +70,7 @@ export default function LoginPage() {
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                    className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                     required
                   />
                 </div>
@@ -91,7 +88,7 @@ export default function LoginPage() {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                    className="pl-10 pr-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                     required
                   />
                   <button
@@ -117,7 +114,7 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 gradient-primary hover:opacity-90 text-white font-semibold rounded-xl shadow-lg animate-glow"
+                className="w-full h-11 gradient-primary hover:opacity-90 text-white font-semibold rounded-xl shadow-lg animate-glow"
               >
                 {isLoading ? (
                   <div className="flex items-center space-x-2">
@@ -130,8 +127,8 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <div className="mt-8 text-center">
-              <p className="text-muted-foreground">
+            <div className="mt-6 text-center">
+              <p className="text-muted-foreground text-sm">
                 Don't have an account?{" "}
                 <Link href="/signup" className="text-primary hover:underline font-medium">
                   Create one now
@@ -140,7 +137,7 @@ export default function LoginPage() {
             </div>
 
             {/* Social Login Options */}
-            <div className="mt-6">
+            <div className="mt-5">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-border/50" />
@@ -153,7 +150,7 @@ export default function LoginPage() {
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <Button
                   variant="outline"
-                  className="h-12 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent"
+                  className="h-11 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent"
                 >
                   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                     <path
@@ -177,7 +174,7 @@ export default function LoginPage() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="h-12 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent"
+                  className="h-11 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent"
                 >
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />

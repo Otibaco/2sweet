@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,10 +23,9 @@ import {
   Camera,
   Shield,
   Globe,
-  Router,
+  Clock,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { toast } from "sonner"
 
 const steps = [
   { id: 1, title: "Email", description: "Enter your email address" },
@@ -44,6 +43,11 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""])
   const [phoneOtpCode, setPhoneOtpCode] = useState(["", "", "", "", "", ""])
+
+  const [emailTimer, setEmailTimer] = useState(0)
+  const [phoneTimer, setPhoneTimer] = useState(0)
+  const [canResendEmail, setCanResendEmail] = useState(false)
+  const [canResendPhone, setCanResendPhone] = useState(false)
 
   const [formData, setFormData] = useState({
     email: "",
@@ -68,18 +72,56 @@ export default function SignupPage() {
     agreeToTerms: false,
   })
 
+  useEffect(() => {
+    let interval
+    if (emailTimer > 0) {
+      interval = setInterval(() => {
+        setEmailTimer((prev) => {
+          if (prev <= 1) {
+            setCanResendEmail(true)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [emailTimer])
+
+  useEffect(() => {
+    let interval
+    if (phoneTimer > 0) {
+      interval = setInterval(() => {
+        setPhoneTimer((prev) => {
+          if (prev <= 1) {
+            setCanResendPhone(true)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [phoneTimer])
+
   const handleNext = async () => {
     setIsLoading(true)
     // Simulate API calls
     await new Promise((resolve) => setTimeout(resolve, 1500))
     setIsLoading(false)
 
+    if (currentStep === 1) {
+      setEmailTimer(180) // 3 minutes
+      setCanResendEmail(false)
+    } else if (currentStep === 3) {
+      setPhoneTimer(180) // 3 minutes
+      setCanResendPhone(false)
+    }
+
     if (currentStep < 7) {
       setCurrentStep(currentStep + 1)
     } else {
       // Handle final signup
-      Router.push("/dashboard")
-      toast.success("Signup completed successfully!")
       console.log("Signup completed:", formData)
     }
   }
@@ -102,10 +144,10 @@ export default function SignupPage() {
     }
   }
 
-  const handleOtpChange = ( number, value, isPhone = false) => {
+  const handleOtpChange = (index, value, isPhone = false) => {
     if (value.length <= 1) {
       const newOtp = isPhone ? [...phoneOtpCode] : [...otpCode]
-      newOtp[number] = value
+      newOtp[index] = value
       if (isPhone) {
         setPhoneOtpCode(newOtp)
       } else {
@@ -123,6 +165,26 @@ export default function SignupPage() {
   const handleGoogleSignup = () => {
     // Handle Google OAuth signup
     console.log("Google signup initiated")
+  }
+
+  const handleResendEmail = () => {
+    setEmailTimer(180)
+    setCanResendEmail(false)
+    setOtpCode(["", "", "", "", "", ""])
+    console.log("Resending email OTP")
+  }
+
+  const handleResendPhone = () => {
+    setPhoneTimer(180)
+    setCanResendPhone(false)
+    setPhoneOtpCode(["", "", "", "", "", ""])
+    console.log("Resending phone OTP")
+  }
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
   const isStepValid = () => {
@@ -153,7 +215,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 px-4 py-6">
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
 
       <motion.div
@@ -165,31 +227,31 @@ export default function SignupPage() {
         {/* Back to Home */}
         <Link
           href="/"
-          className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-6 group"
+          className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-4 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </Link>
 
         <Card className="border-0 shadow-2xl bg-card/80 backdrop-blur-xl">
-          <CardHeader className="text-center pb-6">
-            <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <span className="text-white font-bold text-2xl">2$</span>
+          <CardHeader className="text-center pb-4 px-6 pt-6">
+            <div className="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+              <span className="text-white font-bold text-xl">2$</span>
             </div>
             <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-            <CardDescription className="text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-sm">
               Join 2$weet and start trading cryptocurrencies securely
             </CardDescription>
           </CardHeader>
 
-          <CardContent>
+          <CardContent className="px-6 pb-6">
             {/* Step Indicators - Mobile Optimized */}
-            <div className="flex justify-center mb-8 overflow-x-auto">
-              <div className="flex items-center space-x-2 min-w-max px-4">
+            <div className="flex justify-center mb-6 overflow-x-auto">
+              <div className="flex items-center space-x-2 min-w-max px-2">
                 {steps.map((step, index) => (
                   <div key={step.id} className="flex items-center">
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-300 ${
+                      className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-300 ${
                         currentStep > step.id
                           ? "bg-primary text-white"
                           : currentStep === step.id
@@ -201,7 +263,7 @@ export default function SignupPage() {
                     </div>
                     {index < steps.length - 1 && (
                       <div
-                        className={`w-4 h-0.5 mx-1 transition-colors duration-300 ${
+                        className={`w-3 h-0.5 mx-1 transition-colors duration-300 ${
                           currentStep > step.id ? "bg-primary" : "bg-muted"
                         }`}
                       />
@@ -220,9 +282,9 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
+                  <div className="text-center mb-5">
                     <h3 className="text-lg font-semibold">What's your email?</h3>
                     <p className="text-muted-foreground text-sm">We'll use this to create your account</p>
                   </div>
@@ -231,7 +293,7 @@ export default function SignupPage() {
                     type="button"
                     variant="outline"
                     onClick={handleGoogleSignup}
-                    className="w-full h-12 rounded-xl relative overflow-hidden group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-transparent"
+                    className="w-full h-11 rounded-xl relative overflow-hidden group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-transparent"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-teal-500 opacity-10 group-hover:opacity-20 transition-opacity" />
                     <div className="absolute inset-[1px] bg-card rounded-[11px]" />
@@ -281,7 +343,7 @@ export default function SignupPage() {
                         placeholder="Enter your email"
                         value={formData.email}
                         onChange={(e) => updateFormData("email", e.target.value)}
-                        className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                        className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                         required
                       />
                     </div>
@@ -297,11 +359,11 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Mail className="w-8 h-8 text-primary" />
+                  <div className="text-center mb-5">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Mail className="w-7 h-7 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold">Check your email</h3>
                     <p className="text-muted-foreground text-sm">
@@ -320,14 +382,27 @@ export default function SignupPage() {
                           maxLength={1}
                           value={digit}
                           onChange={(e) => handleOtpChange(index, e.target.value)}
-                          className="w-12 h-12 text-center text-lg font-semibold rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="w-11 h-11 text-center text-lg font-semibold rounded-xl border-border/50 focus:border-primary transition-colors"
                         />
                       ))}
                     </div>
-                    <div className="text-center">
-                      <Button variant="ghost" className="text-sm text-primary hover:text-primary/80">
-                        Didn't receive code? Resend
-                      </Button>
+
+                    <div className="text-center space-y-2">
+                      {emailTimer > 0 ? (
+                        <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                          <Clock className="w-4 h-4" />
+                          <span>Resend code in {formatTime(emailTimer)}</span>
+                        </div>
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          className="text-sm text-primary hover:text-primary/80"
+                          onClick={handleResendEmail}
+                          disabled={!canResendEmail}
+                        >
+                          Didn't receive code? Resend
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -341,11 +416,11 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Phone className="w-8 h-8 text-primary" />
+                  <div className="text-center mb-5">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Phone className="w-7 h-7 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold">Add your phone number</h3>
                     <p className="text-muted-foreground text-sm">We'll send you a verification code via SMS</p>
@@ -363,7 +438,7 @@ export default function SignupPage() {
                         placeholder="+1 (555) 123-4567"
                         value={formData.phone}
                         onChange={(e) => updateFormData("phone", e.target.value)}
-                        className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                        className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                         required
                       />
                     </div>
@@ -379,11 +454,11 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Phone className="w-8 h-8 text-primary" />
+                  <div className="text-center mb-5">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Phone className="w-7 h-7 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold">Verify your phone</h3>
                     <p className="text-muted-foreground text-sm">
@@ -402,14 +477,27 @@ export default function SignupPage() {
                           maxLength={1}
                           value={digit}
                           onChange={(e) => handleOtpChange(index, e.target.value, true)}
-                          className="w-12 h-12 text-center text-lg font-semibold rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="w-11 h-11 text-center text-lg font-semibold rounded-xl border-border/50 focus:border-primary transition-colors"
                         />
                       ))}
                     </div>
-                    <div className="text-center">
-                      <Button variant="ghost" className="text-sm text-primary hover:text-primary/80">
-                        Didn't receive code? Resend
-                      </Button>
+
+                    <div className="text-center space-y-2">
+                      {phoneTimer > 0 ? (
+                        <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                          <Clock className="w-4 h-4" />
+                          <span>Resend code in {formatTime(phoneTimer)}</span>
+                        </div>
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          className="text-sm text-primary hover:text-primary/80"
+                          onClick={handleResendPhone}
+                          disabled={!canResendPhone}
+                        >
+                          Didn't receive code? Resend
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -423,11 +511,11 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <User className="w-8 h-8 text-primary" />
+                  <div className="text-center mb-5">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <User className="w-7 h-7 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold">Complete your profile</h3>
                     <p className="text-muted-foreground text-sm">Tell us a bit about yourself</p>
@@ -446,7 +534,7 @@ export default function SignupPage() {
                           placeholder="@username"
                           value={formData.username}
                           onChange={(e) => updateFormData("username", e.target.value)}
-                          className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                           required
                         />
                       </div>
@@ -464,7 +552,7 @@ export default function SignupPage() {
                           placeholder="Your display name"
                           value={formData.displayName}
                           onChange={(e) => updateFormData("displayName", e.target.value)}
-                          className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                           required
                         />
                       </div>
@@ -477,7 +565,7 @@ export default function SignupPage() {
                       <div className="relative">
                         <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 z-10" />
                         <Select value={formData.country} onValueChange={(value) => updateFormData("country", value)}>
-                          <SelectTrigger className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors">
+                          <SelectTrigger className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors">
                             <SelectValue placeholder="Select your country" />
                           </SelectTrigger>
                           <SelectContent>
@@ -505,7 +593,7 @@ export default function SignupPage() {
                           type="date"
                           value={formData.dateOfBirth}
                           onChange={(e) => updateFormData("dateOfBirth", e.target.value)}
-                          className="pl-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="pl-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                           required
                         />
                       </div>
@@ -523,7 +611,7 @@ export default function SignupPage() {
                           placeholder="Create a strong password"
                           value={formData.password}
                           onChange={(e) => updateFormData("password", e.target.value)}
-                          className="pl-10 pr-10 h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="pl-10 pr-10 h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                           required
                         />
                         <button
@@ -547,20 +635,20 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Shield className="w-8 h-8 text-primary" />
+                  <div className="text-center mb-5">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <Shield className="w-7 h-7 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold">Identity Verification</h3>
                     <p className="text-muted-foreground text-sm">Upload your documents for account verification</p>
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="space-y-5">
                     <div className="space-y-2">
                       <Label className="text-sm font-medium">Government ID</Label>
-                      <div className="border-2 border-dashed border-border/50 rounded-xl p-6 text-center hover:border-primary/50 transition-colors group cursor-pointer">
+                      <div className="border-2 border-dashed border-border/50 rounded-xl p-5 text-center hover:border-primary/50 transition-colors group cursor-pointer">
                         <input
                           type="file"
                           id="id-upload"
@@ -573,7 +661,7 @@ export default function SignupPage() {
                             }
                           }}
                         />
-                        <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2 group-hover:text-primary transition-colors" />
+                        <Upload className="w-7 h-7 text-muted-foreground mx-auto mb-2 group-hover:text-primary transition-colors" />
                         <p className="text-sm text-muted-foreground mb-3">
                           Upload your passport, driver's license, or national ID
                         </p>
@@ -597,7 +685,7 @@ export default function SignupPage() {
 
                     <div className="space-y-2">
                       <Label className="text-sm font-medium">Selfie Photo</Label>
-                      <div className="border-2 border-dashed border-border/50 rounded-xl p-6 text-center hover:border-primary/50 transition-colors group cursor-pointer">
+                      <div className="border-2 border-dashed border-border/50 rounded-xl p-5 text-center hover:border-primary/50 transition-colors group cursor-pointer">
                         <input
                           type="file"
                           id="selfie-upload"
@@ -611,7 +699,7 @@ export default function SignupPage() {
                             }
                           }}
                         />
-                        <Camera className="w-8 h-8 text-muted-foreground mx-auto mb-2 group-hover:text-primary transition-colors" />
+                        <Camera className="w-7 h-7 text-muted-foreground mx-auto mb-2 group-hover:text-primary transition-colors" />
                         <p className="text-sm text-muted-foreground mb-3">
                           Take a clear selfie holding your ID document
                         </p>
@@ -656,11 +744,11 @@ export default function SignupPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <MapPin className="w-8 h-8 text-primary" />
+                  <div className="text-center mb-5">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <MapPin className="w-7 h-7 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold">Residential Address</h3>
                     <p className="text-muted-foreground text-sm">Provide your current residential address</p>
@@ -676,7 +764,7 @@ export default function SignupPage() {
                         placeholder="Enter your full street address"
                         value={formData.address.street}
                         onChange={(e) => updateFormData("address.street", e.target.value)}
-                        className="min-h-[80px] rounded-xl border-border/50 focus:border-primary transition-colors resize-none"
+                        className="min-h-[70px] rounded-xl border-border/50 focus:border-primary transition-colors resize-none"
                         required
                       />
                     </div>
@@ -692,7 +780,7 @@ export default function SignupPage() {
                           placeholder="City"
                           value={formData.address.city}
                           onChange={(e) => updateFormData("address.city", e.target.value)}
-                          className="h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                           required
                         />
                       </div>
@@ -707,7 +795,7 @@ export default function SignupPage() {
                           placeholder="State"
                           value={formData.address.state}
                           onChange={(e) => updateFormData("address.state", e.target.value)}
-                          className="h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                          className="h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                         />
                       </div>
                     </div>
@@ -722,12 +810,12 @@ export default function SignupPage() {
                         placeholder="Postal Code"
                         value={formData.address.postalCode}
                         onChange={(e) => updateFormData("address.postalCode", e.target.value)}
-                        className="h-12 rounded-xl border-border/50 focus:border-primary transition-colors"
+                        className="h-11 rounded-xl border-border/50 focus:border-primary transition-colors"
                         required
                       />
                     </div>
 
-                    <div className="flex items-start space-x-2 pt-4">
+                    <div className="flex items-start space-x-2 pt-3">
                       <input
                         type="checkbox"
                         id="terms"
@@ -756,13 +844,13 @@ export default function SignupPage() {
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-8 gap-4">
+            <div className="flex justify-between mt-6 gap-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleBack}
                 disabled={currentStep === 1}
-                className="h-12 px-6 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent flex-1 sm:flex-none"
+                className="h-11 px-6 rounded-xl border-border/50 hover:border-primary transition-colors bg-transparent flex-1 sm:flex-none"
               >
                 Back
               </Button>
@@ -771,7 +859,7 @@ export default function SignupPage() {
                 type="button"
                 onClick={handleNext}
                 disabled={!isStepValid() || isLoading}
-                className="h-12 px-8 gradient-primary hover:opacity-90 text-white font-semibold rounded-xl shadow-lg animate-glow flex-1 sm:flex-none"
+                className="h-11 px-8 gradient-primary hover:opacity-90 text-white font-semibold rounded-xl shadow-lg animate-glow flex-1 sm:flex-none"
               >
                 {isLoading ? (
                   <div className="flex items-center space-x-2">
@@ -786,7 +874,7 @@ export default function SignupPage() {
               </Button>
             </div>
 
-            <div className="mt-8 text-center">
+            <div className="mt-6 text-center">
               <p className="text-muted-foreground text-sm">
                 Already have an account?{" "}
                 <Link href="/login" className="text-primary hover:underline font-medium">

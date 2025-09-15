@@ -4,7 +4,8 @@ import { useState, useEffect } from "react"
 import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export function ThemeToggle() {
+export function 
+ThemeToggle() {
   const [theme, setTheme] = useState("light") // ✅ removed TypeScript generic
 
   useEffect(() => {

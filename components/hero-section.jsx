@@ -182,7 +182,7 @@ export function HeroSection() {
             <div className="relative">
               <div className="relative z-10">
                 <Image
-                  src="/mobileimage.png"
+                  src="/Homepage-Wallet-and-Portfolio.png"
                   alt="Crypto trader analyzing charts"
                   width={600}
                   height={700}
