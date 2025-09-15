@@ -46,16 +46,37 @@ const recentTransactions = [
   { id: 4, type: "buy", asset: "ADA", amount: 1000, value: 456.78, time: "2 days ago", status: "completed" },
 ]
 
+
+// ✅ Expanded mock market data
 const marketData = [
   { symbol: "BTC", price: 43210.5, change: 2.34, volume: "1.2B" },
   { symbol: "ETH", price: 2345.67, change: -1.45, volume: "890M" },
   { symbol: "ADA", price: 0.4567, change: 5.67, volume: "234M" },
   { symbol: "SOL", price: 98.76, change: -3.21, volume: "156M" },
+  { symbol: "BNB", price: 310.45, change: 1.78, volume: "450M" },
+  { symbol: "XRP", price: 0.567, change: 0.89, volume: "678M" },
+  { symbol: "DOGE", price: 0.098, change: 4.56, volume: "345M" },
+  { symbol: "DOT", price: 7.45, change: -2.1, volume: "123M" },
+  { symbol: "MATIC", price: 1.23, change: 3.45, volume: "256M" },
+  { symbol: "LTC", price: 95.34, change: -0.9, volume: "89M" },
+  { symbol: "AVAX", price: 35.67, change: 6.3, volume: "145M" },
+  { symbol: "UNI", price: 6.78, change: 2.5, volume: "76M" },
+  { symbol: "ATOM", price: 12.45, change: -1.2, volume: "98M" },
+  { symbol: "NEAR", price: 4.56, change: 5.1, volume: "54M" },
+  { symbol: "FIL", price: 5.34, change: 1.8, volume: "67M" },
+  { symbol: "TRX", price: 0.123, change: -0.5, volume: "234M" },
+  { symbol: "ETC", price: 28.9, change: 0.67, volume: "45M" },
+  { symbol: "AAVE", price: 82.5, change: 3.2, volume: "34M" },
+  { symbol: "ALGO", price: 0.234, change: -1.1, volume: "67M" },
+  { symbol: "HBAR", price: 0.056, change: 2.7, volume: "23M" },
 ]
 
 export default function DashboardPage() {
   const [balanceVisible, setBalanceVisible] = useState(true)
   const [selectedTimeframe, setSelectedTimeframe] = useState("24h")
+  const [showAll, setShowAll] = useState(false)
+
+  const displayedData = showAll ? marketData : marketData.slice(0, 4)
 
   return (
     <DashboardLayout>
@@ -196,9 +217,10 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
+                        className="flex items-center justify-between gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
                       >
-                        <div className="flex items-center gap-3">
+                        {/* Asset Icon + Name */}
+                        <div className="flex items-center gap-3 w-1/3 min-w-[100px]">
                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold">
                             {asset.icon}
                           </div>
@@ -208,7 +230,8 @@ export default function DashboardPage() {
                           </div>
                         </div>
 
-                        <div className="text-right">
+                        {/* Asset Value */}
+                        <div className="w-1/3 text-center sm:text-right">
                           <div className="font-medium">
                             {balanceVisible ? `$${asset.value.toLocaleString()}` : "••••"}
                           </div>
@@ -217,8 +240,12 @@ export default function DashboardPage() {
                           </div>
                         </div>
 
-                        <div className="text-right">
-                          <Badge variant={asset.change > 0 ? "default" : "destructive"} className="rounded-full text-xs px-2 py-1">
+                        {/* Asset Change Badge */}
+                        <div className="w-1/3 text-right">
+                          <Badge
+                            variant={asset.change > 0 ? "default" : "destructive"}
+                            className="rounded-full text-xs px-2 py-1"
+                          >
                             {asset.change > 0 ? "+" : ""}
                             {asset.change}%
                           </Badge>
@@ -228,6 +255,7 @@ export default function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
+
 
               {/* Recent Transactions */}
               <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
@@ -248,9 +276,10 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
+                        className="flex flex-wrap sm:grid sm:grid-cols-3 sm:items-center gap-3 p-3 rounded-lg bg-muted/30"
                       >
-                        <div className="flex items-center gap-3">
+                        {/* Transaction Icon + Type */}
+                        <div className="flex items-center gap-3 flex-1 min-w-[140px]">
                           <div
                             className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === "buy"
                               ? "bg-green-500/10"
@@ -276,16 +305,20 @@ export default function DashboardPage() {
                           </div>
                         </div>
 
-                        <div className="text-right">
+                        {/* Transaction Value */}
+                        <div className="flex-1 min-w-[120px] text-left sm:text-right">
                           <div className="font-medium">${tx.value.toLocaleString()}</div>
                           <div className="text-xs text-muted-foreground">
                             {tx.amount} {tx.asset}
                           </div>
                         </div>
 
-                        <Badge variant="outline" className="rounded-full text-xs px-2 py-1">
-                          {tx.status}
-                        </Badge>
+                        {/* Transaction Status */}
+                        <div className="flex-1 min-w-[80px] text-left sm:text-right">
+                          <Badge variant="outline" className="rounded-full text-xs px-2 py-1">
+                            {tx.status}
+                          </Badge>
+                        </div>
                       </motion.div>
                     ))}
                   </div>
@@ -293,8 +326,12 @@ export default function DashboardPage() {
               </Card>
             </div>
 
+
+
+
             {/* Market Overview & Quick Actions */}
             <div className="space-y-4">
+              {/* Market Overview */}
               <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
                 <CardHeader>
                   <CardTitle>Market Overview</CardTitle>
@@ -303,7 +340,7 @@ export default function DashboardPage() {
 
                 <CardContent>
                   <div className="space-y-2">
-                    {marketData.map((coin, index) => (
+                    {displayedData.map((coin, index) => (
                       <motion.div
                         key={coin.symbol}
                         initial={{ opacity: 0, y: 8 }}
@@ -318,7 +355,10 @@ export default function DashboardPage() {
 
                         <div className="text-right">
                           <div className="font-medium">${coin.price.toLocaleString()}</div>
-                          <div className={`text-xs ${coin.change > 0 ? "text-green-500" : "text-red-500"}`}>
+                          <div
+                            className={`text-xs ${coin.change > 0 ? "text-green-500" : "text-red-500"
+                              }`}
+                          >
                             {coin.change > 0 ? "+" : ""}
                             {coin.change}%
                           </div>
@@ -326,9 +366,22 @@ export default function DashboardPage() {
                       </motion.div>
                     ))}
                   </div>
+
+                  {/* Toggle button */}
+                  <div className="mt-4 flex justify-center">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-lg text-sm"
+                      onClick={() => setShowAll(!showAll)}
+                    >
+                      {showAll ? "View Less" : "View More"}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
 
+              {/* Quick Actions */}
               <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
@@ -336,40 +389,44 @@ export default function DashboardPage() {
 
                 <CardContent>
                   <div className="grid grid-cols-2 gap-3">
-                    <Link href="/dashboard/settings" >
-
-                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
+                    <Link href="/dashboard/wallet">
+                      <Button
+                        variant="outline"
+                        className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm"
+                      >
                         <CreditCard className="w-5 h-5 mb-1" />
                         <span>Deposit</span>
                       </Button>
-
                     </Link>
 
-                    <Link href="/dashboard/settings" >
-
-                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
+                    <Link href="/dashboard/wallet">
+                      <Button
+                        variant="outline"
+                        className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm"
+                      >
                         <Wallet className="w-5 h-5 mb-1" />
                         <span>Withdraw</span>
                       </Button>
-
                     </Link>
 
-                    <Link href="/dashboard/settings" >
-
-                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
+                    <Link href="/dashboard/trading">
+                      <Button
+                        variant="outline"
+                        className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm"
+                      >
                         <Activity className="w-5 h-5 mb-1" />
                         <span>Trade</span>
                       </Button>
-
                     </Link>
 
-                    <Link href="/dashboard/settings" >
-
-                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
+                    <Link href="/dashboard/trading">
+                      <Button
+                        variant="outline"
+                        className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm"
+                      >
                         <BarChart3 className="w-5 h-5 mb-1" />
                         <span>Analytics</span>
                       </Button>
-
                     </Link>
                   </div>
                 </CardContent>
