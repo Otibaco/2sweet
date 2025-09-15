@@ -61,11 +61,16 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Left: Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 gradient-primary rounded-xl flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-lg">2$</span>
+            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-md">
+              <img
+                src="/logo-removebg.png" // 👉 replace with your real logo path
+                alt="2$weet Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <span className="text-xl font-bold text-foreground">2$weet</span>
           </Link>
+
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
