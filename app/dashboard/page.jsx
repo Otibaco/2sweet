@@ -60,76 +60,86 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-        <div className="container mx-auto px-4 py-8 pt-24">
+        <div className="max-w-7xl mx-auto px-4 py-6">
           {/* Header */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Welcome back, John!</h1>
-              <p className="text-muted-foreground">Here's what's happening with your portfolio today.</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">Welcome back, John!</h1>
+              <p className="text-sm text-muted-foreground">Here's what's happening with your portfolio today.</p>
             </div>
-            <div className="flex items-center space-x-4 mt-4 lg:mt-0">
-              <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
-                <Bell className="w-4 h-4 mr-2" />
-                Notifications
-              </Button>
-              <Link href="/dashboard/settings">
-                <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
+            <div className="flex items-center gap-2 mt-2 sm:mt-0">
+
+              <Link href="/dashboard/settings" >
+                <Button variant="outline" size="sm" className="rounded-xl bg-transparent px-3 py-2 flex items-center gap-2">
+                  <Bell className="w-4 h-4" />
+                  <span className="text-xs">Notifications</span>
                 </Button>
               </Link>
 
+              <Link href="/dashboard/settings" >
+
+                <Button variant="outline" size="sm" className="rounded-xl bg-transparent px-3 py-2 flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  <span className="text-xs">Settings</span>
+                </Button>
+
+              </Link>
             </div>
           </div>
 
           {/* Portfolio Overview */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-            <Card className="lg:col-span-2 border-0 shadow-lg bg-card/80 backdrop-blur-xl">
-              <CardHeader className="flex flex-row items-center justify-between">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
+            <Card className="lg:col-span-2 border-0 shadow-md bg-card/80 backdrop-blur-xl">
+              <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
-                  <CardTitle className="text-lg">Total Portfolio Value</CardTitle>
-                  <CardDescription>Your total crypto holdings</CardDescription>
+                  <CardTitle className="text-base sm:text-lg">Total Portfolio Value</CardTitle>
+                  <CardDescription className="text-xs">Your total crypto holdings</CardDescription>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setBalanceVisible(!balanceVisible)}
-                  className="rounded-xl"
-                >
-                  {balanceVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                </Button>
+
               </CardHeader>
+
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <div className="text-3xl font-bold text-foreground">
+                    <div className="text-2xl sm:text-3xl font-bold text-foreground">
                       {balanceVisible ? `$${portfolioData.totalBalance.toLocaleString()}` : "••••••"}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setBalanceVisible(!balanceVisible)}
+                        className="rounded-xl"
+                      >
+                        {balanceVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                      </Button>
                     </div>
-                    <div className="flex items-center space-x-2 mt-2">
+
+
+                    <div className="flex items-center gap-2 mt-2">
                       <Badge
                         variant={portfolioData.totalBalanceChange > 0 ? "default" : "destructive"}
-                        className="rounded-full"
+                        className="rounded-full text-xs px-2 py-1 inline-flex items-center gap-1"
                       >
                         {portfolioData.totalBalanceChange > 0 ? (
-                          <TrendingUp className="w-3 h-3 mr-1" />
+                          <TrendingUp className="w-3 h-3" />
                         ) : (
-                          <TrendingDown className="w-3 h-3 mr-1" />
+                          <TrendingDown className="w-3 h-3" />
                         )}
-                        {portfolioData.totalBalanceChangePercent}%
+                        <span className="text-[11px]">{portfolioData.totalBalanceChangePercent}%</span>
                       </Badge>
-                      <span className="text-sm text-muted-foreground">
+
+                      <span className="text-xs text-muted-foreground">
                         ${Math.abs(portfolioData.totalBalanceChange).toLocaleString()} today
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex space-x-4">
-                    <Button className="flex-1 gradient-primary hover:opacity-90 text-white rounded-xl">
-                      <Plus className="w-4 h-4 mr-2" />
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button className="flex-1 gradient-primary hover:opacity-90 text-white rounded-xl px-3 py-2 text-sm inline-flex items-center justify-center gap-2">
+                      <Plus className="w-4 h-4" />
                       Buy Crypto
                     </Button>
-                    <Button variant="outline" className="flex-1 rounded-xl border-border/50 bg-transparent">
-                      <Minus className="w-4 h-4 mr-2" />
+                    <Button variant="outline" className="flex-1 rounded-xl border-border/50 bg-transparent px-3 py-2 text-sm inline-flex items-center justify-center gap-2">
+                      <Minus className="w-4 h-4" />
                       Sell Crypto
                     </Button>
                   </div>
@@ -137,26 +147,26 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
+              <CardHeader className="flex items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Available Balance</CardTitle>
                 <Wallet className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">
+                <div className="text-xl sm:text-2xl font-bold">
                   {balanceVisible ? `$${portfolioData.availableBalance.toLocaleString()}` : "••••••"}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">Ready to trade</p>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
+              <CardHeader className="flex items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">24h Volume</CardTitle>
                 <BarChart3 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">$8,432</div>
+                <div className="text-xl sm:text-2xl font-bold">$8,432</div>
                 <p className="text-xs text-muted-foreground mt-1">
                   <span className="text-green-500">+12.5%</span> from yesterday
                 </p>
@@ -165,10 +175,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Main Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             {/* Portfolio Assets */}
-            <div className="lg:col-span-2">
-              <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
+            <div className="lg:col-span-2 space-y-4">
+              <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     Your Assets
@@ -177,37 +187,38 @@ export default function DashboardPage() {
                     </Button>
                   </CardTitle>
                 </CardHeader>
+
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {portfolioData.assets.map((asset, index) => (
                       <motion.div
                         key={asset.symbol}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center justify-between p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
+                        transition={{ delay: index * 0.05 }}
+                        className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
                       >
-                        <div className="flex items-center space-x-4">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <span className="font-bold text-primary">{asset.icon}</span>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold">
+                            {asset.icon}
                           </div>
                           <div>
-                            <div className="font-semibold">{asset.symbol}</div>
-                            <div className="text-sm text-muted-foreground">{asset.name}</div>
+                            <div className="font-medium">{asset.symbol}</div>
+                            <div className="text-xs text-muted-foreground">{asset.name}</div>
                           </div>
                         </div>
 
                         <div className="text-right">
-                          <div className="font-semibold">
-                            {balanceVisible ? `$${asset.value.toLocaleString()}` : "••••••"}
+                          <div className="font-medium">
+                            {balanceVisible ? `$${asset.value.toLocaleString()}` : "••••"}
                           </div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-xs text-muted-foreground">
                             {asset.amount} {asset.symbol}
                           </div>
                         </div>
 
                         <div className="text-right">
-                          <Badge variant={asset.change > 0 ? "default" : "destructive"} className="rounded-full">
+                          <Badge variant={asset.change > 0 ? "default" : "destructive"} className="rounded-full text-xs px-2 py-1">
                             {asset.change > 0 ? "+" : ""}
                             {asset.change}%
                           </Badge>
@@ -219,7 +230,7 @@ export default function DashboardPage() {
               </Card>
 
               {/* Recent Transactions */}
-              <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl mt-6">
+              <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     Recent Transactions
@@ -228,17 +239,18 @@ export default function DashboardPage() {
                     </Button>
                   </CardTitle>
                 </CardHeader>
+
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {recentTransactions.map((tx, index) => (
                       <motion.div
                         key={tx.id}
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center justify-between p-4 rounded-xl bg-muted/30"
+                        transition={{ delay: index * 0.05 }}
+                        className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
                       >
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center gap-3">
                           <div
                             className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === "buy"
                               ? "bg-green-500/10"
@@ -248,29 +260,30 @@ export default function DashboardPage() {
                               }`}
                           >
                             {tx.type === "buy" ? (
-                              <ArrowUpRight className="w-5 h-5 text-green-500" />
+                              <ArrowUpRight className="w-4 h-4 text-green-500" />
                             ) : tx.type === "sell" ? (
-                              <ArrowDownLeft className="w-5 h-5 text-red-500" />
+                              <ArrowDownLeft className="w-4 h-4 text-red-500" />
                             ) : (
-                              <CreditCard className="w-5 h-5 text-blue-500" />
+                              <CreditCard className="w-4 h-4 text-blue-500" />
                             )}
                           </div>
+
                           <div>
-                            <div className="font-semibold capitalize">
+                            <div className="font-medium capitalize">
                               {tx.type} {tx.asset}
                             </div>
-                            <div className="text-sm text-muted-foreground">{tx.time}</div>
+                            <div className="text-xs text-muted-foreground">{tx.time}</div>
                           </div>
                         </div>
 
                         <div className="text-right">
-                          <div className="font-semibold">${tx.value.toLocaleString()}</div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="font-medium">${tx.value.toLocaleString()}</div>
+                          <div className="text-xs text-muted-foreground">
                             {tx.amount} {tx.asset}
                           </div>
                         </div>
 
-                        <Badge variant="outline" className="rounded-full">
+                        <Badge variant="outline" className="rounded-full text-xs px-2 py-1">
                           {tx.status}
                         </Badge>
                       </motion.div>
@@ -280,31 +293,32 @@ export default function DashboardPage() {
               </Card>
             </div>
 
-            {/* Market Overview */}
-            <div>
-              <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
+            {/* Market Overview & Quick Actions */}
+            <div className="space-y-4">
+              <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
                 <CardHeader>
                   <CardTitle>Market Overview</CardTitle>
                   <CardDescription>Top cryptocurrencies</CardDescription>
                 </CardHeader>
+
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     {marketData.map((coin, index) => (
                       <motion.div
                         key={coin.symbol}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center justify-between p-3 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
+                        transition={{ delay: index * 0.03 }}
+                        className="flex items-center justify-between p-2 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
                       >
                         <div>
-                          <div className="font-semibold">{coin.symbol}</div>
-                          <div className="text-sm text-muted-foreground">Vol: {coin.volume}</div>
+                          <div className="font-medium">{coin.symbol}</div>
+                          <div className="text-xs text-muted-foreground">Vol: {coin.volume}</div>
                         </div>
 
                         <div className="text-right">
-                          <div className="font-semibold">${coin.price.toLocaleString()}</div>
-                          <div className={`text-sm ${coin.change > 0 ? "text-green-500" : "text-red-500"}`}>
+                          <div className="font-medium">${coin.price.toLocaleString()}</div>
+                          <div className={`text-xs ${coin.change > 0 ? "text-green-500" : "text-red-500"}`}>
                             {coin.change > 0 ? "+" : ""}
                             {coin.change}%
                           </div>
@@ -315,51 +329,47 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Quick Actions */}
-              <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl mt-6">
+              <Card className="border-0 shadow-md bg-card/80 backdrop-blur-xl">
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
+
                 <CardContent>
                   <div className="grid grid-cols-2 gap-3">
-                    <Link href="#">
-                      <Button
-                        variant="outline"
-                        className="h-16 rounded-xl border-border/50 flex-col bg-transparent w-full"
-                      >
+                    <Link href="/dashboard/settings" >
+
+                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
                         <CreditCard className="w-5 h-5 mb-1" />
-                        <span className="text-xs">Deposit</span>
+                        <span>Deposit</span>
                       </Button>
+
                     </Link>
 
-                    <Link href="#">
-                      <Button
-                        variant="outline"
-                        className="h-16 rounded-xl border-border/50 flex-col bg-transparent w-full"
-                      >
+                    <Link href="/dashboard/settings" >
+
+                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
                         <Wallet className="w-5 h-5 mb-1" />
-                        <span className="text-xs">Withdraw</span>
+                        <span>Withdraw</span>
                       </Button>
+
                     </Link>
 
-                    <Link href="#">
-                      <Button
-                        variant="outline"
-                        className="h-16 rounded-xl border-border/50 flex-col bg-transparent w-full"
-                      >
+                    <Link href="/dashboard/settings" >
+
+                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
                         <Activity className="w-5 h-5 mb-1" />
-                        <span className="text-xs">Trade</span>
+                        <span>Trade</span>
                       </Button>
+
                     </Link>
 
-                    <Link href="#">
-                      <Button
-                        variant="outline"
-                        className="h-16 rounded-xl border-border/50 flex-col bg-transparent w-full"
-                      >
+                    <Link href="/dashboard/settings" >
+
+                      <Button variant="outline" className="h-14 rounded-xl border-border/50 flex-col bg-transparent w-full text-sm">
                         <BarChart3 className="w-5 h-5 mb-1" />
-                        <span className="text-xs">Analytics</span>
+                        <span>Analytics</span>
                       </Button>
+
                     </Link>
                   </div>
                 </CardContent>
@@ -368,7 +378,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </DashboardLayout >
 
   )
 }
