@@ -172,19 +172,36 @@ export default function WalletPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-6 space-y-6">
+      <div className="px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* Wallet Overview */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Wallet</h1>
-            <p className="text-muted-foreground">Manage your crypto assets and transactions</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
+              Wallet
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
+              Manage your crypto assets and transactions
+            </p>
           </div>
-          <div className="flex items-center space-x-4 mt-4 lg:mt-0">
-            <Button variant="ghost" size="sm" onClick={() => setBalanceVisible(!balanceVisible)} className="rounded-xl">
-              {balanceVisible ? <Eye className="w-4 h-4 mr-2" /> : <EyeOff className="w-4 h-4 mr-2" />}
+          <div className="flex flex-wrap items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setBalanceVisible(!balanceVisible)}
+              className="rounded-xl"
+            >
+              {balanceVisible ? (
+                <Eye className="w-4 h-4 mr-2" />
+              ) : (
+                <EyeOff className="w-4 h-4 mr-2" />
+              )}
               {balanceVisible ? "Hide" : "Show"} Balance
             </Button>
-            <Button variant="outline" size="sm" className="rounded-xl bg-transparent">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-xl bg-transparent"
+            >
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
@@ -194,16 +211,16 @@ export default function WalletPage() {
         {/* Total Balance */}
         <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+            <CardTitle className="flex items-center justify-between text-lg sm:text-xl">
               Total Portfolio Value
               <Wallet className="w-5 h-5 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground mb-4">
+            <div className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
               {balanceVisible ? `$${totalUsdValue.toLocaleString()}` : "••••••••"}
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {walletBalances.map((asset, index) => (
                 <motion.div
                   key={asset.symbol}
@@ -213,14 +230,18 @@ export default function WalletPage() {
                   className="p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-center space-x-2 mb-2">
-                    <span className="text-lg font-bold text-primary">{asset.icon}</span>
+                    <span className="text-lg font-bold text-primary">
+                      {asset.icon}
+                    </span>
                     <span className="font-semibold">{asset.symbol}</span>
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {balanceVisible ? asset.balance : "••••••"} {asset.symbol}
                   </div>
                   <div className="text-sm font-medium">
-                    {balanceVisible ? `$${asset.usdValue.toLocaleString()}` : "••••••"}
+                    {balanceVisible
+                      ? `$${asset.usdValue.toLocaleString()}`
+                      : "••••••"}
                   </div>
                 </motion.div>
               ))}
@@ -234,7 +255,9 @@ export default function WalletPage() {
           <div className="xl:col-span-1">
             <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
               <CardHeader>
-                <CardTitle>Deposit & Withdraw</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">
+                  Deposit & Withdraw
+                </CardTitle>
                 <CardDescription>Manage your crypto assets</CardDescription>
               </CardHeader>
               <CardContent>
@@ -250,135 +273,141 @@ export default function WalletPage() {
                     </TabsTrigger>
                   </TabsList>
 
-                  <div className="mt-6">
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label className="text-sm">Select Asset</Label>
-                        <Select value={selectedAsset} onValueChange={setSelectedAsset}>
-                          <SelectTrigger className="rounded-xl border-border/50">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {walletBalances.map((asset) => (
-                              <SelectItem key={asset.symbol} value={asset.symbol}>
-                                <div className="flex items-center space-x-2">
-                                  <span>{asset.icon}</span>
-                                  <span>{asset.symbol}</span>
-                                  <span className="text-muted-foreground">- {asset.name}</span>
-                                </div>
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
+                  {/* Deposit */}
+                  <TabsContent value="deposit" className="mt-6 space-y-4">
+                    <div className="space-y-2">
+                      <Label className="text-sm">Select Asset</Label>
+                      <Select value={selectedAsset} onValueChange={setSelectedAsset}>
+                        <SelectTrigger className="rounded-xl border-border/50">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {walletBalances.map((asset) => (
+                            <SelectItem key={asset.symbol} value={asset.symbol}>
+                              <div className="flex items-center space-x-2">
+                                <span>{asset.icon}</span>
+                                <span>{asset.symbol}</span>
+                                <span className="text-muted-foreground">
+                                  - {asset.name}
+                                </span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-                  </div>
 
-                  <TabsContent value="deposit" className="space-y-4">
-                    <div className="space-y-4">
-                      <div className="p-4 rounded-xl bg-muted/30">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium">Deposit Address</span>
-                          <div className="flex space-x-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => copyToClipboard(selectedAssetData.address)}
-                              className="rounded-xl"
-                            >
-                              <Copy className="w-4 h-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="rounded-xl">
-                              <QrCode className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="text-xs text-muted-foreground break-all">{selectedAssetData.address}</div>
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
-                        <div className="flex items-start space-x-2">
-                          <AlertCircle className="w-4 h-4 text-yellow-500 mt-0.5" />
-                          <div className="text-xs text-yellow-600 dark:text-yellow-400">
-                            <p className="font-medium mb-1">Important Notice:</p>
-                            <p>
-                              Only send {selectedAsset} to this address. Sending other assets may result in permanent
-                              loss.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label className="text-sm">Expected Amount (Optional)</Label>
-                        <Input
-                          type="number"
-                          placeholder={`0.00 ${selectedAsset}`}
-                          value={depositAmount}
-                          onChange={(e) => setDepositAmount(e.target.value)}
-                          className="rounded-xl border-border/50"
-                        />
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="withdraw" className="space-y-4">
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label className="text-sm">Withdrawal Address</Label>
-                        <Input
-                          type="text"
-                          placeholder="Enter recipient address"
-                          value={withdrawAddress}
-                          onChange={(e) => setWithdrawAddress(e.target.value)}
-                          className="rounded-xl border-border/50"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label className="text-sm">Amount</Label>
-                        <div className="relative">
-                          <Input
-                            type="number"
-                            placeholder={`0.00 ${selectedAsset}`}
-                            value={withdrawAmount}
-                            onChange={(e) => setWithdrawAmount(e.target.value)}
-                            className="rounded-xl border-border/50 pr-16"
-                          />
+                    <div className="p-4 rounded-xl bg-muted/30">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium">
+                          Deposit Address
+                        </span>
+                        <div className="flex space-x-2">
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs"
+                            onClick={() =>
+                              copyToClipboard(selectedAssetData.address)
+                            }
+                            className="rounded-xl"
                           >
-                            MAX
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm" className="rounded-xl">
+                            <QrCode className="w-4 h-4" />
                           </Button>
                         </div>
-                        <div className="text-xs text-muted-foreground">
-                          Available: {selectedAssetData.balance} {selectedAsset}
-                        </div>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-muted/30">
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-muted-foreground">Network Fee:</span>
-                          <span>0.0001 {selectedAsset}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">You'll receive:</span>
-                          <span className="font-medium">
-                            {withdrawAmount ? (Number.parseFloat(withdrawAmount) - 0.0001).toFixed(4) : "0.0000"}{" "}
-                            {selectedAsset}
-                          </span>
-                        </div>
+                      <div className="text-xs text-muted-foreground break-all">
+                        {selectedAssetData.address}
                       </div>
-
-                      <Button
-                        className="w-full h-12 gradient-primary hover:opacity-90 text-white font-semibold rounded-xl"
-                        disabled={!withdrawAddress || !withdrawAmount}
-                      >
-                        Withdraw {selectedAsset}
-                      </Button>
                     </div>
+
+                    <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+                      <div className="flex items-start space-x-2">
+                        <AlertCircle className="w-4 h-4 text-yellow-500 mt-0.5" />
+                        <div className="text-xs text-yellow-600 dark:text-yellow-400">
+                          <p className="font-medium mb-1">Important Notice:</p>
+                          <p>
+                            Only send {selectedAsset} to this address. Sending
+                            other assets may result in permanent loss.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm">Expected Amount (Optional)</Label>
+                      <Input
+                        type="number"
+                        placeholder={`0.00 ${selectedAsset}`}
+                        value={depositAmount}
+                        onChange={(e) => setDepositAmount(e.target.value)}
+                        className="rounded-xl border-border/50"
+                      />
+                    </div>
+                  </TabsContent>
+
+                  {/* Withdraw */}
+                  <TabsContent value="withdraw" className="mt-6 space-y-4">
+                    <div className="space-y-2">
+                      <Label className="text-sm">Withdrawal Address</Label>
+                      <Input
+                        type="text"
+                        placeholder="Enter recipient address"
+                        value={withdrawAddress}
+                        onChange={(e) => setWithdrawAddress(e.target.value)}
+                        className="rounded-xl border-border/50"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm">Amount</Label>
+                      <div className="relative">
+                        <Input
+                          type="number"
+                          placeholder={`0.00 ${selectedAsset}`}
+                          value={withdrawAmount}
+                          onChange={(e) => setWithdrawAmount(e.target.value)}
+                          className="rounded-xl border-border/50 pr-16"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-xs"
+                        >
+                          MAX
+                        </Button>
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        Available: {selectedAssetData.balance} {selectedAsset}
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-muted/30">
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-muted-foreground">Network Fee:</span>
+                        <span>0.0001 {selectedAsset}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">You'll receive:</span>
+                        <span className="font-medium">
+                          {withdrawAmount
+                            ? (
+                              Number.parseFloat(withdrawAmount) - 0.0001
+                            ).toFixed(4)
+                            : "0.0000"}{" "}
+                          {selectedAsset}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Button
+                      className="w-full h-12 gradient-primary hover:opacity-90 text-white font-semibold rounded-xl"
+                      disabled={!withdrawAddress || !withdrawAmount}
+                    >
+                      Withdraw {selectedAsset}
+                    </Button>
                   </TabsContent>
                 </Tabs>
               </CardContent>
@@ -389,23 +418,27 @@ export default function WalletPage() {
           <div className="xl:col-span-2">
             <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
               <CardHeader>
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                   <div>
-                    <CardTitle>Transaction History</CardTitle>
-                    <CardDescription>Your recent deposits and withdrawals</CardDescription>
+                    <CardTitle className="text-lg sm:text-xl">
+                      Transaction History
+                    </CardTitle>
+                    <CardDescription>
+                      Your recent deposits and withdrawals
+                    </CardDescription>
                   </div>
-                  <div className="flex items-center space-x-2 mt-4 lg:mt-0">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="relative w-full sm:w-48">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         placeholder="Search transactions..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-48 rounded-xl border-border/50"
+                        className="pl-10 w-full rounded-xl border-border/50"
                       />
                     </div>
                     <Select value={statusFilter} onValueChange={setStatusFilter}>
-                      <SelectTrigger className="w-32 rounded-xl border-border/50">
+                      <SelectTrigger className="w-full sm:w-32 rounded-xl border-border/50">
                         <Filter className="w-4 h-4 mr-2" />
                         <SelectValue />
                       </SelectTrigger>
@@ -429,12 +462,13 @@ export default function WalletPage() {
                       transition={{ delay: index * 0.1 }}
                       className="p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors"
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div className="flex items-center space-x-4">
                           <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                              tx.type === "deposit" ? "bg-green-500/10" : "bg-red-500/10"
-                            }`}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === "deposit"
+                                ? "bg-green-500/10"
+                                : "bg-red-500/10"
+                              }`}
                           >
                             {tx.type === "deposit" ? (
                               <ArrowDownLeft className="w-5 h-5 text-green-500" />
@@ -457,7 +491,9 @@ export default function WalletPage() {
                             {tx.type === "deposit" ? "+" : "-"}
                             {tx.amount} {tx.asset}
                           </div>
-                          <div className="text-sm text-muted-foreground">${tx.usdValue.toLocaleString()}</div>
+                          <div className="text-sm text-muted-foreground">
+                            ${tx.usdValue.toLocaleString()}
+                          </div>
                         </div>
 
                         <div className="flex items-center space-x-2">
@@ -472,19 +508,25 @@ export default function WalletPage() {
                       </div>
 
                       <div className="mt-3 pt-3 border-t border-border/50">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
                           <div>
-                            <span className="text-muted-foreground">Transaction Hash:</span>
+                            <span className="text-muted-foreground">
+                              Transaction Hash:
+                            </span>
                             <div className="font-mono truncate">{tx.txHash}</div>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Network Fee:</span>
+                            <span className="text-muted-foreground">
+                              Network Fee:
+                            </span>
                             <div>
                               {tx.fee} {tx.asset}
                             </div>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Confirmations:</span>
+                            <span className="text-muted-foreground">
+                              Confirmations:
+                            </span>
                             <div>{tx.confirmations}/12</div>
                           </div>
                           <div>
@@ -509,5 +551,7 @@ export default function WalletPage() {
         </div>
       </div>
     </DashboardLayout>
+    
+
   )
 }
