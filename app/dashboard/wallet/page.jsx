@@ -419,15 +419,14 @@ export default function WalletPage() {
             <Card className="border-0 shadow-lg bg-card/80 backdrop-blur-xl">
               <CardHeader>
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  <div>
-                    <CardTitle className="text-lg sm:text-xl">
-                      Transaction History
-                    </CardTitle>
-                    <CardDescription>
-                      Your recent deposits and withdrawals
-                    </CardDescription>
+                  {/* Title */}
+                  <div className="text-center sm:text-left">
+                    <CardTitle className="text-lg sm:text-xl">Transaction History</CardTitle>
+                    <CardDescription>Your recent deposits and withdrawals</CardDescription>
                   </div>
-                  <div className="flex flex-wrap items-center gap-3">
+
+                  {/* Filters */}
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 w-full sm:w-auto">
                     <div className="relative w-full sm:w-48">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
@@ -437,6 +436,7 @@ export default function WalletPage() {
                         className="pl-10 w-full rounded-xl border-border/50"
                       />
                     </div>
+
                     <Select value={statusFilter} onValueChange={setStatusFilter}>
                       <SelectTrigger className="w-full sm:w-32 rounded-xl border-border/50">
                         <Filter className="w-4 h-4 mr-2" />
@@ -452,6 +452,7 @@ export default function WalletPage() {
                   </div>
                 </div>
               </CardHeader>
+
               <CardContent>
                 <div className="space-y-4">
                   {filteredTransactions.map((tx, index) => (
@@ -462,12 +463,12 @@ export default function WalletPage() {
                       transition={{ delay: index * 0.1 }}
                       className="p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors"
                     >
+                      {/* Main Row */}
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        {/* Left: Type & Asset */}
                         <div className="flex items-center space-x-4">
                           <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === "deposit"
-                                ? "bg-green-500/10"
-                                : "bg-red-500/10"
+                            className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === "deposit" ? "bg-green-500/10" : "bg-red-500/10"
                               }`}
                           >
                             {tx.type === "deposit" ? (
@@ -476,7 +477,7 @@ export default function WalletPage() {
                               <ArrowUpRight className="w-5 h-5 text-red-500" />
                             )}
                           </div>
-                          <div>
+                          <div className="text-left">
                             <div className="font-semibold capitalize">
                               {tx.type} {tx.asset}
                             </div>
@@ -486,7 +487,8 @@ export default function WalletPage() {
                           </div>
                         </div>
 
-                        <div className="text-right">
+                        {/* Middle: Amount */}
+                        <div className="text-left sm:text-right">
                           <div className="font-semibold">
                             {tx.type === "deposit" ? "+" : "-"}
                             {tx.amount} {tx.asset}
@@ -496,7 +498,8 @@ export default function WalletPage() {
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-2">
+                        {/* Right: Status */}
+                        <div className="flex items-center gap-2 justify-start sm:justify-end">
                           <Badge className={`rounded-full border ${getStatusColor(tx.status)}`}>
                             {getStatusIcon(tx.status)}
                             <span className="ml-1 capitalize">{tx.status}</span>
@@ -507,26 +510,19 @@ export default function WalletPage() {
                         </div>
                       </div>
 
+                      {/* Extra Details */}
                       <div className="mt-3 pt-3 border-t border-border/50">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
                           <div>
-                            <span className="text-muted-foreground">
-                              Transaction Hash:
-                            </span>
+                            <span className="text-muted-foreground">Transaction Hash:</span>
                             <div className="font-mono truncate">{tx.txHash}</div>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">
-                              Network Fee:
-                            </span>
-                            <div>
-                              {tx.fee} {tx.asset}
-                            </div>
+                            <span className="text-muted-foreground">Network Fee:</span>
+                            <div>{tx.fee} {tx.asset}</div>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">
-                              Confirmations:
-                            </span>
+                            <span className="text-muted-foreground">Confirmations:</span>
                             <div>{tx.confirmations}/12</div>
                           </div>
                           <div>
@@ -548,10 +544,11 @@ export default function WalletPage() {
               </CardContent>
             </Card>
           </div>
+
         </div>
       </div>
     </DashboardLayout>
-    
+
 
   )
 }
